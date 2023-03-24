@@ -1,8 +1,8 @@
 package mk.ukim.finki.emt.lab1.library.service.impl;
 
-import mk.ukim.finki.emt.lab1.library.models.Author;
 import mk.ukim.finki.emt.lab1.library.models.Book;
 import mk.ukim.finki.emt.lab1.library.models.Category;
+import mk.ukim.finki.emt.lab1.library.repository.AuthorRepository;
 import mk.ukim.finki.emt.lab1.library.repository.BookRepository;
 import mk.ukim.finki.emt.lab1.library.service.BookService;
 import org.springframework.stereotype.Service;
@@ -13,9 +13,11 @@ import java.util.Optional;
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
 
-    public BookServiceImpl(BookRepository bookRepository) {
+    public BookServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
+        this.authorRepository = authorRepository;
     }
 
     @Override
@@ -50,8 +52,37 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public void markBook(Long id) {
+        if(bookRepository.findById(id).isPresent())
+        {
+            Book book = bookRepository.findById(id).get();
+            book.setAvailableCopies(book.getAvailableCopies() - 1);
+            bookRepository.save(book);
+        }
+    }
+
+    @Override
+    public void addBooks() {
+        Book book1 = new Book();
+        book1.setId(1L);
+        book1.setName("War and peace");
+        book1.setAuthor(authorRepository.getById(1L));
+        book1.setCategory(Category.DRAMA);
+        book1.setAvailableCopies(15);
+        Book book2 = new Book();
+        book2.setId(2L);
+        book2.setName("Rabies");
+        book2.setAuthor(authorRepository.getById(2L));
+        book2.setCategory(Category.NOVEL);
+        book2.setAvailableCopies(70);
+        bookRepository.save(book1);
+        bookRepository.save(book2);
+    }
+
+    @Override
     public Optional<Book> save(Book book) {
         return Optional.of(this.bookRepository.save(book));
     }
+
 
 }

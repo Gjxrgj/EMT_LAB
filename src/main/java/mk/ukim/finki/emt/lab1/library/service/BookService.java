@@ -13,4 +13,6 @@ public interface BookService {
     Optional<Book> save(Book book);
     Optional<Book> edit(Long id, Book book);
     void deleteById(Long id);
+    void markBook(Long id);
+    void addBooks();
 }

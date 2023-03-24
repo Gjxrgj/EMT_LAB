@@ -12,6 +12,8 @@ public class BookDto {
     @Enumerated(value = EnumType.STRING)
     private Category category;
     private int availableCopies;
+    @ManyToOne
+    private Author author;
 
     public BookDto() {
     }

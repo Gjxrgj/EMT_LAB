@@ -1,7 +1,9 @@
 package mk.ukim.finki.emt.lab1.library.web.rest;
 
 import mk.ukim.finki.emt.lab1.library.models.Book;
+import mk.ukim.finki.emt.lab1.library.service.AuthorService;
 import mk.ukim.finki.emt.lab1.library.service.BookService;
+import mk.ukim.finki.emt.lab1.library.service.CountryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,9 +13,18 @@ import java.util.List;
 @RequestMapping("/api/books")
 public class BooksRestController {
     private final BookService bookService;
+    private final AuthorService authorService;
+    private final CountryService countryService;
 
-    public BooksRestController(BookService bookService) {
+    public BooksRestController(BookService bookService, AuthorService authorService, CountryService countryService) {
+
         this.bookService = bookService;
+        this.authorService = authorService;
+        this.countryService = countryService;
+        countryService.addCountries();
+        authorService.addAuthors();
+        bookService.addBooks();
+
     }
 
     @GetMapping
@@ -26,10 +37,12 @@ public class BooksRestController {
                 .map(book -> ResponseEntity.ok().body(book))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+    @GetMapping("/mark/{id}")
+    public void markBook(@PathVariable Long id){
+        bookService.markBook(id);
+    }
     @PostMapping("/add")
     public ResponseEntity<Book> save(@RequestBody Book book){
-        System.out.println("book");
-        System.out.println(book);
         return this.bookService.save(book)
                 .map(book1 -> ResponseEntity.ok().body(book1))
                 .orElseGet(() -> ResponseEntity.notFound().build());
