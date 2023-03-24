@@ -2,6 +2,7 @@ package mk.ukim.finki.emt.lab1.library.web.rest;
 
 import mk.ukim.finki.emt.lab1.library.models.Book;
 import mk.ukim.finki.emt.lab1.library.service.AuthorService;
+import mk.ukim.finki.emt.lab1.library.models.dto.BookDto;
 import mk.ukim.finki.emt.lab1.library.service.BookService;
 import mk.ukim.finki.emt.lab1.library.service.CountryService;
 import org.springframework.http.ResponseEntity;
@@ -42,13 +43,13 @@ public class BooksRestController {
         bookService.markBook(id);
     }
     @PostMapping("/add")
-    public ResponseEntity<Book> save(@RequestBody Book book){
+    public ResponseEntity<Book> save(@RequestBody BookDto book){
         return this.bookService.save(book)
                 .map(book1 -> ResponseEntity.ok().body(book1))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
     @PostMapping("/edit/{id}")
-    public ResponseEntity<Book> edit(@PathVariable Long id, @RequestBody Book book){
+    public ResponseEntity<Book> edit(@PathVariable Long id, @RequestBody BookDto book){
         return this.bookService.edit(id, book)
                 .map(book1 -> ResponseEntity.ok().body(book1))
                 .orElseGet(() -> ResponseEntity.notFound().build());
