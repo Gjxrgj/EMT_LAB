@@ -1,5 +1,6 @@
 package mk.ukim.finki.emt.lab1.library.service.impl;
 
+import mk.ukim.finki.emt.lab1.library.models.Author;
 import mk.ukim.finki.emt.lab1.library.models.Book;
 import mk.ukim.finki.emt.lab1.library.models.Category;
 import mk.ukim.finki.emt.lab1.library.models.dto.BookDto;
@@ -34,11 +35,12 @@ public class BookServiceImpl implements BookService {
     @Override
     public Optional<Book> edit(Long id, BookDto bookEdit) {
         Book book = null;
+        Author author = authorRepository.findById(bookEdit.getAuthor()).get();
         if(findById(id).isPresent())
         {
             book = findById(id).get();
             book.setName(bookEdit.getName());
-            book.setAuthor(bookEdit.getAuthor());
+            book.setAuthor(author);
             book.setCategory(bookEdit.getCategory());
             book.setAvailableCopies(bookEdit.getAvailableCopies());
             bookRepository.save(book);
@@ -82,9 +84,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Optional<Book> save(BookDto book) {
+        Author author = authorRepository.findById(book.getAuthor()).get();
         Book newBook = new Book();
         newBook.setName(book.getName());
-        newBook.setAuthor(book.getAuthor());
+        newBook.setAuthor(author);
         newBook.setCategory(book.getCategory());
         newBook.setAvailableCopies(book.getAvailableCopies());
         return Optional.of(this.bookRepository.save(newBook));

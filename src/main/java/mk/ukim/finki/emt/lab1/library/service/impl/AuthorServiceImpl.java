@@ -6,6 +6,8 @@ import mk.ukim.finki.emt.lab1.library.repository.CountryRepository;
 import mk.ukim.finki.emt.lab1.library.service.AuthorService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
@@ -30,5 +32,10 @@ public class AuthorServiceImpl implements AuthorService {
         author2.setCountry(countryRepository.getById(2L));
         authorRepository.save(author1);
         authorRepository.save(author2);
+    }
+
+    @Override
+    public List<Author> getAuthors() {
+        return authorRepository.findAll();
     }
 }

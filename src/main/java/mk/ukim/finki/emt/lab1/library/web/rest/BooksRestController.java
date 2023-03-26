@@ -35,6 +35,11 @@ public class BooksRestController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<Book> findById(@PathVariable Long id){
+        System.out.println("GetById");
+        System.out.println(id);
+        System.out.println(bookService.findById(id)
+                .map(book -> ResponseEntity.ok().body(book))
+                .orElseGet(() -> ResponseEntity.notFound().build()));
         return bookService.findById(id)
                 .map(book -> ResponseEntity.ok().body(book))
                 .orElseGet(() -> ResponseEntity.notFound().build());

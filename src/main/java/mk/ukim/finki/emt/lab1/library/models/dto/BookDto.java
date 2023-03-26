@@ -12,7 +12,7 @@ public class BookDto {
     @Enumerated(value = EnumType.STRING)
     private Category category;
     @ManyToOne
-    private Author author;
+    private Long author;
     private int availableCopies;
 
     public BookDto() {
