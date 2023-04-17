@@ -7,6 +7,8 @@ import mk.ukim.finki.emt.lab1.library.models.dto.BookDto;
 import mk.ukim.finki.emt.lab1.library.repository.AuthorRepository;
 import mk.ukim.finki.emt.lab1.library.repository.BookRepository;
 import mk.ukim.finki.emt.lab1.library.service.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -80,6 +82,11 @@ public class BookServiceImpl implements BookService {
         book2.setAvailableCopies(70);
         bookRepository.save(book1);
         bookRepository.save(book2);
+    }
+
+    @Override
+    public Page<Book> findAllWithPagination(Pageable pageable) {
+        return bookRepository.findAll(pageable);
     }
 
     @Override

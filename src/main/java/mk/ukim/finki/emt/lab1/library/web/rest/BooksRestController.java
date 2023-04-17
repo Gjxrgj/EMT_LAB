@@ -5,6 +5,8 @@ import mk.ukim.finki.emt.lab1.library.service.AuthorService;
 import mk.ukim.finki.emt.lab1.library.models.dto.BookDto;
 import mk.ukim.finki.emt.lab1.library.service.BookService;
 import mk.ukim.finki.emt.lab1.library.service.CountryService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,13 +35,12 @@ public class BooksRestController {
     public List<Book> findAll(){
         return bookService.findAll();
     }
+    @GetMapping("/pagination")
+    public Page<Book> findAllPagination(Pageable pageable){
+        return bookService.findAllWithPagination(pageable);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<Book> findById(@PathVariable Long id){
-        System.out.println("GetById");
-        System.out.println(id);
-        System.out.println(bookService.findById(id)
-                .map(book -> ResponseEntity.ok().body(book))
-                .orElseGet(() -> ResponseEntity.notFound().build()));
         return bookService.findById(id)
                 .map(book -> ResponseEntity.ok().body(book))
                 .orElseGet(() -> ResponseEntity.notFound().build());

@@ -15,7 +15,7 @@ class App extends Component {
             books: [],
             categories: [],
             authors: [],
-            selectedBook: {}
+            book: {}
         }
     }
 
@@ -25,20 +25,26 @@ class App extends Component {
                 <Header/>
                 <main>
                     <div className="container">
-                        <Route path={"/books/add"} exact render={() => <BookAdd
-                            categories={this.state.categories}
-                            authors={this.state.authors}
-                            onAddBook={this.addBook}/>}/>
+                        {/*<Route path={"/books/add"} exact render={() => <BookAdd
+                            categories={this.props}
+                            onAddBook={this.addBook}/>}/>*/}
+                        <Route path={"/books/add"} exact render={() =>
+                            <BookAdd categories={this.state.categories}
+                                     authors={this.state.authors}
+                                     onAddBook={this.addBook}
+                            />}/>
                         <Route path={"/books/edit/:id"} exact render={() =>
                             <BookEdit categories={this.state.categories}
                                       authors={this.state.authors}
+                                      book={this.state.book}
                                       onEditBook={this.editBook}
-                                      book={this.state.selectedBook}/>}/>
+                            />}/>
                         <Route path={["/books", "/"]} exact render={() => <Books
                             books={this.state.books}
                             onEdit={this.getBook}
                             onDelete={this.deleteBook}
-                            onMark={this.markBook}/>}/>
+                            onMark={this.markBook}
+                        />}/>
                         <Route path={"/categories"} exact render={() => <Categories
                             categories={this.state.categories}/>}/>
                         {/*<Redirect to={"/books"}/>*/}
@@ -83,9 +89,10 @@ class App extends Component {
     getBook = (id) => {
         libraryService.getBook(id)
             .then((data) => {
-                this.setState({
-                    selectedBook: data.data
-                })
+                this.setState(
+                    {
+                        book: data.data
+                    })
             })
     }
     deleteBook = (id) => {

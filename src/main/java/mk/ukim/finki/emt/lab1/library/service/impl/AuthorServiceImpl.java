@@ -4,6 +4,7 @@ import mk.ukim.finki.emt.lab1.library.models.Author;
 import mk.ukim.finki.emt.lab1.library.repository.AuthorRepository;
 import mk.ukim.finki.emt.lab1.library.repository.CountryRepository;
 import mk.ukim.finki.emt.lab1.library.service.AuthorService;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

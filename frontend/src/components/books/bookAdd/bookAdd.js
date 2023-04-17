@@ -13,7 +13,7 @@ const BookAdd = (props) => {
         updateFormData({
             ...formData,
             [e.target.name]: e.target.value.trim(),
-        });
+        } );
     }
     const onFormSubmit = (e) => {
         e.preventDefault();
